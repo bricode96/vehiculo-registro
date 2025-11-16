@@ -31,5 +31,10 @@ export const deleteVehiculo = async (vehiculoId) =>{
     return rowCount > 0;
 }
 
-
-
+export const searchVehiculo = async (searchTerm) =>{
+    const { rows } = await query(
+        `SELECT * FROM vehiculos_td WHERE marca ILIKE $1 OR modelo ILIKE $1 OR placa ILIKE $1`,
+        [`%${searchTerm}%`]
+    )
+    return rows;
+}

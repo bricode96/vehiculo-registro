@@ -7,5 +7,6 @@ router.get('/vehiculos', vehiculoController.getVehiculo);
 router.post('/vehiculos', vehiculoController.postVehiculo);
 router.put('/vehiculos/:id', vehiculoController.putVehiculo);
 router.delete('/vehiculos/:id', vehiculoController.deleteVehiculo);
+router.get('/vehiculos/search', vehiculoController.searchVehiculo);
 
 export default router;

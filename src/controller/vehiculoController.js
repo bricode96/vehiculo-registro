@@ -47,7 +47,22 @@ export const deleteVehiculo = async (req, res) => {
 
         res.status(200).json({ success: true, message: "Registro eliminado correctamente" });
     } catch (error) {
-        console.error('Error deleting client:', error);
+        console.error('Error al eliminar registro:', error);
         res.status(500).json({ message: 'Error en servidores' });
+    }
+}
+
+export const searchVehiculo = async (req, res) => {
+    try {
+        console.log(req.query); // <- para depuración
+        const searchTerm = req.query?.q;
+        if (!searchTerm) return res.status(400).json({ message: "Parametro query 'q' es requerido" });
+
+        const vehiculos = await vehiculoService.searchVehiculo(searchTerm);
+        res.status(200).json(vehiculos);
+
+    } catch (error) {
+        console.error('Error al buscar registro:', error);
+        res.status(500).json({ message: 'Error de servidores' });
     }
 }
