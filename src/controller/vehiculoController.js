@@ -9,3 +9,14 @@ export const getVehiculo = async (req, res) => {
         res.status(500).json({ message: 'Error interno de servidores' });
     }
 }
+
+export const postVehiculo = async (req, res) => {
+    try{
+        const vehiculoData = req.body;
+        const newVehiculo = await vehiculoService.postVehiculo(vehiculoData);
+        res.status(200).json({success: true, data: newVehiculo});
+    }catch(error){
+        console.error("Error al añadir vehiculo", error);
+        res.status(500).json({message: 'Error en servidor'})
+    }
+}
