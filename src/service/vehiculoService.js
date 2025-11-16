@@ -24,6 +24,12 @@ export const putVehiculo = async (vehiculoData, vehiculoId) => {
     return rows[0];
 }
 
+export const deleteVehiculo = async (vehiculoId) =>{
+    const { rowCount } = await query(`DELETE FROM vehiculos_td WHERE id = $1`,
+        [vehiculoId]
+    )
+    return rowCount > 0;
+}
 
 
 
