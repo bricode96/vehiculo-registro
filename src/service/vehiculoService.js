@@ -1,18 +1,24 @@
 import { query } from "../config/db.js"
 
 export const getVehiculo = async () => {
-    const { rows } = await query('SELECT * FROM vehiculo_tb');
+    const { rows } = await query('SELECT * FROM vehiculos_td');
     return rows;
 }
 
 export const postVehiculo = async (vehiculoData) => {
-    const { motorista, vehiculo, modelo, color, fecha_registro, anio, tipo, activo, estado } = vehiculoData;
-    const { rows } = await query(
-        `INSERT INTO vehiculo_tb 
-        (motorista, vehiculo, modelo, color, fecha_registro, anio, tipo, activo, estado)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
-        [motorista, vehiculo, modelo, color, fecha_registro, anio, tipo, activo, estado]
-    );
+    try {
+        const { marca, modelo, placa } = vehiculoData;
+        const { rows } = await query(
+            `INSERT INTO vehiculos (marca, modelo, placa) VALUES ($1, $2, $3) RETURNING *`,
+            [marca, modelo, placa]
+        );
+        return rows[0];
+    } catch (error) {
+        console.error('Error al insertar vehículo:', error);
+        throw error; 
+    }
+}
 
-    return rows[0];
-};
+
+
+
