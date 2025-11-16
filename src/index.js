@@ -11,6 +11,6 @@ app.use(express.json());
 
 app.use('/api', vehiculoRoute);
 
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log("Base de datos conectada")
 })

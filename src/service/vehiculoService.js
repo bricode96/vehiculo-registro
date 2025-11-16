@@ -6,17 +6,22 @@ export const getVehiculo = async () => {
 }
 
 export const postVehiculo = async (vehiculoData) => {
-    try {
-        const { marca, modelo, placa } = vehiculoData;
-        const { rows } = await query(
-            `INSERT INTO vehiculos (marca, modelo, placa) VALUES ($1, $2, $3) RETURNING *`,
-            [marca, modelo, placa]
-        );
-        return rows[0];
-    } catch (error) {
-        console.error('Error al insertar vehículo:', error);
-        throw error; 
-    }
+    const { marca, modelo, placa } = vehiculoData;
+    const { rows } = await query(
+        `INSERT INTO vehiculos_td (marca, modelo, placa) VALUES ($1, $2, $3) RETURNING *`,
+        [marca, modelo, placa]
+    );
+    return rows[0];
+
+}
+
+export const putVehiculo = async (vehiculoData, vehiculoId) => {
+    const { marca, modelo, placa } = vehiculoData;
+    const { rows } = await query(
+        `UPDATE vehiculos_td SET marca = $1, modelo = $2, placa = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4 RETURNING *`,
+        [marca, modelo, placa, vehiculoId]
+    );
+    return rows[0];
 }
 
 
