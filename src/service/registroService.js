@@ -31,18 +31,6 @@ export const postRegistro = async (registroData) => {
     return rows[0];
 };
 
-export const putVehiculo = async (registroData, registroId) => {
-    const { marca, modelo, placa, status } = registroData;
-
-    const { rows } = await query(
-        `UPDATE vehiculos_td SET marca = $1, modelo = $2, placa = $3, status = $4, updated_at = CURRENT_TIMESTAMP 
-         WHERE id = $5 RETURNING *`,
-        [marca, modelo, placa, status, registroId]
-    );
-
-    return rows[0];
-}
-
 export const putRegistro = async (registroData, registroId) => {
     let {
         vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, status, km_salida = null, fecha_hora_salida = null,
