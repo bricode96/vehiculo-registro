@@ -11,15 +11,17 @@ export const getRegistro = async (req, res) => {
 }
 
 export const postRegistro = async (req, res) => {
+    console.log("📥 BODY RECIBIDO:", req.body);   // <-- AGREGA ESTO YA
+
     try {
         const registroData = req.body;
         const newRegistro = await registroService.postRegistro(registroData);
-        res.status(200).json({ success: true, data: newRegistro })
+        res.status(200).json({ success: true, data: newRegistro });
     } catch (error) {
-        console.error('Error al ingresar registro:', error);
-        res.status(500).json({ message: 'Error en servidores' });
+        console.error("❌ ERROR EXACTO:", error.message);
+        res.status(500).json({ message: error.message });
     }
-}
+};
 
 export const putRegistro = async (req, res) => {
     try {

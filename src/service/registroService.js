@@ -6,21 +6,22 @@ export const getRegistro = async () => {
 } 
 
 export const postRegistro = async (registroData) => {
-    const { vehiculo_id, motorista_nombre, km_salida = null, fecha_hora_salida = null, destino_notas = null, status } = registroData;
+    const { vehiculo_id, motorista_nombre, km_salida, fecha_hora_salida, destino_notas, status } = registroData;
 
     if (!vehiculo_id) throw new Error("vehiculo_id es obligatorio");
     if (!motorista_nombre) throw new Error("motorista_nombre es obligatorio");
+    if (!status) throw new Error("status es obligatorio");
 
-    const { rows: vehiculoRows } = await query(
-        "SELECT modelo FROM vehiculos_td WHERE id = $1",
+    const vehiculo = await query(
+        "SELECT id, modelo FROM vehiculos_td WHERE id = $1",
         [vehiculo_id]
     );
 
-    if (vehiculoRows.length === 0) {
+    if (vehiculo.rows.length === 0) {
         throw new Error("Vehículo no encontrado");
     }
 
-    const { rows } = await query(
+    const insert = await query(
         `INSERT INTO vehicle_logs 
          (vehiculo_id, motorista_nombre, km_salida, fecha_hora_salida, destino_notas, status)
          VALUES ($1, $2, $3, $4, $5, $6)
@@ -28,8 +29,9 @@ export const postRegistro = async (registroData) => {
         [vehiculo_id, motorista_nombre, km_salida, fecha_hora_salida, destino_notas, status]
     );
 
-    return rows[0];
+    return insert.rows[0];
 };
+
 
 export const putRegistro = async (registroData, registroId) => {
     let {
