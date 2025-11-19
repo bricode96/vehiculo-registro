@@ -6,9 +6,11 @@ export const getRegistro = async () => {
 } 
 
 export const postRegistro = async (registroData) => {
-    const { vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, status, km_salida = null, fecha_hora_salida = null, destino_notas = null } = registroData;
+    const { vehiculo_id, motorista_nombre, km_salida = null, fecha_hora_salida = null, destino_notas = null, status } = registroData;
 
-    // Obtener modelo del vehículo
+    if (!vehiculo_id) throw new Error("vehiculo_id es obligatorio");
+    if (!motorista_nombre) throw new Error("motorista_nombre es obligatorio");
+
     const { rows: vehiculoRows } = await query(
         "SELECT modelo FROM vehiculos_td WHERE id = $1",
         [vehiculo_id]
@@ -18,14 +20,12 @@ export const postRegistro = async (registroData) => {
         throw new Error("Vehículo no encontrado");
     }
 
-    const modelo_vehiculo = vehiculoRows[0].modelo;
-
     const { rows } = await query(
         `INSERT INTO vehicle_logs 
-         (vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, status, km_salida, fecha_hora_salida, destino_notas, modelo_vehiculo)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         (vehiculo_id, motorista_nombre, km_salida, fecha_hora_salida, destino_notas, status)
+         VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-        [vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, status, km_salida, fecha_hora_salida, destino_notas, modelo_vehiculo]
+        [vehiculo_id, motorista_nombre, km_salida, fecha_hora_salida, destino_notas, status]
     );
 
     return rows[0];
