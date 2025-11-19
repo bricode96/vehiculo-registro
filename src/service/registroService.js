@@ -5,15 +5,26 @@ export const getRegistro = async () => {
     return rows;
 }
 
-export const postRegistro = async (registroData) => {
-    const {vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, km_salida, fecha_hora_salida, destino_notas, status } = registroData;
+export const postRegistro = async (registroData) => { 
+    let {
+        vehiculo_id,
+        motorista_nombre,
+        km_entrada,
+        fecha_hora_entrada,
+        km_salida,
+        fecha_hora_salida,
+        destino_notas,
+        status
+    } = registroData;
 
+    // Validaciones básicas
     if (!vehiculo_id) throw new Error("vehiculo_id es obligatorio");
     if (!motorista_nombre) throw new Error("motorista_nombre es obligatorio");
     if (!status) throw new Error("status es obligatorio");
 
+    // Obtener el vehículo
     const vehiculo = await query(
-        "SELECT id, modelo FROM vehiculos_td WHERE id = $1",
+        "SELECT id FROM vehiculos_td WHERE id = $1",
         [vehiculo_id]
     );
 
@@ -21,18 +32,38 @@ export const postRegistro = async (registroData) => {
         throw new Error("Vehículo no encontrado");
     }
 
+    // Si es SALIDA → km_entrada y fecha_hora_entrada no aplican
+    if (status === "out") {
+        km_entrada = null;
+        fecha_hora_entrada = null;
+    }
+
+    // Si es ENTRADA → km_salida y fecha_hora_salida no aplican
+    if (status === "in") {
+        km_salida = null;
+        fecha_hora_salida = null;
+        destino_notas = null;
+    }
+
     const insert = await query(
         `INSERT INTO vehicle_logs 
-     (vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, km_salida, fecha_hora_salida, destino_notas, status)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-     RETURNING *`,
-        [vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, km_salida, fecha_hora_salida, destino_notas, status]
+         (vehiculo_id, motorista_nombre, km_entrada, fecha_hora_entrada, km_salida, fecha_hora_salida, destino_notas, status)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+         RETURNING *`,
+        [
+            vehiculo_id,
+            motorista_nombre,
+            km_entrada,
+            fecha_hora_entrada,
+            km_salida,
+            fecha_hora_salida,
+            destino_notas,
+            status
+        ]
     );
-
 
     return insert.rows[0];
 };
-
 
 export const putRegistro = async (registroData, registroId) => {
     let {
