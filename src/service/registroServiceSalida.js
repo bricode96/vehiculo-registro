@@ -47,7 +47,7 @@ export const putRegistroSalida = async (registroId, datosActualizar) => {
     const { nombre_motorista, kilometraje_salida, id_vehiculo_fk } = datosActualizar;
     
     const { rows } = await query(`UPDATE salidas_td SET nombre_motorista = $1, kilometraje_salida = $2,id_vehiculo_fk = $3,          
-            updated_at = NOW() WHERE id = $4 AND status = TRUE RETURNING *`,
+            updated_at = NOW() WHERE id = $4 RETURNING *`,
             [nombre_motorista, kilometraje_salida, id_vehiculo_fk, registroId]
     );
 
