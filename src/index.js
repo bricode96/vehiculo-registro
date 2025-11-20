@@ -8,12 +8,18 @@ import registroRouteEntrada  from "./routes/registroRouteEntrada.js"
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: "https://controlflota.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
+// Rutas
 app.use('/api', vehiculoRoute);
 app.use('/api', registroRouteSalida);
-app.use('/api', registroRouteEntrada)
+app.use('/api', registroRouteEntrada);
 
 app.listen(port, () => {
     console.log("Base de datos conectada")
