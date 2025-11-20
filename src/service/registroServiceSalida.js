@@ -42,25 +42,14 @@ export const postRegistroSalida = async (registroDataSalida) => {
     return detalleRows[0];
 };
 
-export const putRegistroSalida = async (registroId, datosActualizar) => {
-
-    const { nombre_motorista, kilometraje_salida, id_vehiculo_fk } = datosActualizar;
-    
-    const { rows } = await query(`UPDATE salidas_td SET nombre_motorista = $1, kilometraje_salida = $2,id_vehiculo_fk = $3,          
-            updated_at = NOW() WHERE id = $4 RETURNING *`,
-            [nombre_motorista, kilometraje_salida, id_vehiculo_fk, registroId]
+export const deleteRegistroSalida = async (registroId) => {
+    const { rowCount } = await query(
+        `DELETE FROM salidas_td WHERE id = $1`,
+        [registroId]
     );
-
-    return rows[0];
+    return rowCount > 0;
 };
 
-
-export const deleteRegistroSalida = async (registroId) => {
-    const { rowCount } = await query(`DELETE FROM salidas_td WHERE id = $1`,
-        [registroId]
-    )
-    return rowCount > 0;
-}
 
 export const searchRegistroSalida = async (searchTerm) => {
   
