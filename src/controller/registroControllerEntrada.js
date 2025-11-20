@@ -1,8 +1,8 @@
-import * as registroService from "../service/registroService.js"
+import * as registroServiceEntrada from "../service/registroServiceEntrada.js"
 
-export const getRegistro = async (req, res) => {
+export const getRegistrosEntrada = async (req, res) => {
     try {
-        const registro = await registroService.getRegistro();
+        const registro = await registroServiceEntrada.getRegistrosEntrada();
         res.status(200).json(registro);
     } catch (error) {
         console.error('Error en solicitud', error);
@@ -10,12 +10,12 @@ export const getRegistro = async (req, res) => {
     }
 }
 
-export const postRegistro = async (req, res) => {
+export const postRegistroEntrada = async (req, res) => {
     console.log("📥 BODY RECIBIDO:", req.body);   // <-- AGREGA ESTO YA
 
     try {
         const registroData = req.body;
-        const newRegistro = await registroService.postRegistro(registroData);
+        const newRegistro = await registroServiceEntrada.postRegistroEntrada(registroData);
         res.status(200).json({ success: true, data: newRegistro });
     } catch (error) {
         console.error("❌ ERROR EXACTO:", error.message);
@@ -23,12 +23,12 @@ export const postRegistro = async (req, res) => {
     }
 };
 
-export const putRegistro = async (req, res) => {
+export const putRegistroEntrada = async (req, res) => {
     try {
         console.log("➡️ Body recibido en PUT:", req.body);
         const registroId = req.params.id;
         const registroData = req.body;
-        const updateRegistro = await registroService.putRegistro(registroData, registroId);
+        const updateRegistro = await registroServiceEntrada.putRegistroEntrada(registroId, registroData);
         if (!updateRegistro) {
             return res.status(404).json({ message: "Registro no encontrado" });
         }
@@ -39,10 +39,10 @@ export const putRegistro = async (req, res) => {
     }
 }
 
-export const deleteRegistro = async (req, res) => {
+export const deleteRegistroEntrada = async (req, res) => {
     try {
         const registroId = req.params.id;
-        const deleted = await registroService.deleteRegistro(registroId);
+        const deleted = await registroServiceEntrada.deleteRegistroEntrada(registroId);
 
         if (!deleted) {
             return res.status(404).json({ message: "Registro no encontrado" });
@@ -55,13 +55,13 @@ export const deleteRegistro = async (req, res) => {
     }
 }
 
-export const searchRegistro = async (req, res) => {
+export const searchRegistroEntrada = async (req, res) => {
     try {
         console.log(req.query); // <- para depuración
         const searchTerm = req.query?.q;
         if (!searchTerm) return res.status(400).json({ message: "Parametro query 'q' es requerido" });
 
-        const registros = await registroService.searchRegistro(searchTerm);
+        const registros = await registroServiceEntrada.searchRegistroEntrada(searchTerm);
         res.status(200).json(registros);
 
     } catch (error) {

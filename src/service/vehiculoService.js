@@ -1,7 +1,7 @@
 import { query } from "../config/db.js"
 
 export const getVehiculo = async () => {
-    const { rows } = await query('SELECT * FROM vehiculos_td');
+    const { rows } = await query('SELECT * FROM public.vehiculos_td ORDER BY id DESC ');
     return rows;
 }
 
