@@ -13,7 +13,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "dpg-d4do4tfgi27c73a3qvag-a.oregon-postgres.render.com",
+        url: "https://registrovehiculo.onrender.com",
       },
     ],
   },
