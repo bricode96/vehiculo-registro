@@ -10,26 +10,35 @@ const router = express.Router();
  *     RegistroSalida:
  *       type: object
  *       required:
- *         - id_vehiculo
- *         - salida
+ *         - id_vehiculo_fk
+ *         - nombre_motorista
  *       properties:
  *         id:
  *           type: integer
- *           description: ID del registro
- *         id_vehiculo:
+ *           description: ID del registro de salida
+ *         id_vehiculo_fk:
  *           type: integer
  *           description: ID del vehículo
- *         salida:
+ *         nombre_motorista:
  *           type: string
- *           format: date-time
- *           description: Fecha y hora de salida
- *         entrada:
+ *           description: Nombre del motorista
+ *         fecha_salida:
  *           type: string
- *           format: date-time
- *           description: Fecha y hora de entrada
- *         estado:
+ *           format: date
+ *           description: Fecha de salida
+ *         hora_salida:
+ *           type: string
+ *           format: time
+ *           description: Hora de salida
+ *         kilometraje_salida:
+ *           type: integer
+ *           description: Kilometraje al salir
+ *         status:
  *           type: boolean
  *           description: Estado del registro
+ *         modelo:
+ *           type: string
+ *           description: Modelo del vehículo
  */
 
 /**
@@ -115,7 +124,7 @@ router.delete("/registroSalida/:id", registroControllerSalida.deleteRegistroSali
  * @swagger
  * /api/registroSalida/search:
  *   get:
- *     summary: Buscar registros de salida
+ *     summary: Buscar registros de salida por motorista, marca, modelo o placa
  *     tags: [RegistroSalida]
  *     parameters:
  *       - in: query
