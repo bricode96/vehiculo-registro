@@ -9,7 +9,11 @@ import swaggerSpec from "../swagger/swagger.js"; // SIN llaves
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors());
+app.use(cors({
+  origin: "https://tufrontend.netlify.app", // tu frontend Netlify
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use('/api', vehiculoRoute);
