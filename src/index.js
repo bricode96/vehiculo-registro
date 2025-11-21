@@ -7,7 +7,7 @@ import swaggerUI from "swagger-ui-express";
 import swaggerSpec from "../swagger/swagger.js"; // SIN llaves
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());

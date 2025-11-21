@@ -13,12 +13,12 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://registrovehiculo.onrender.com",
+        url: "https://vehiculo-backend.onrender.com",
       },
     ],
   },
 
-  apis: ["./src/routes/*.js"]
+  apis: ["../src/routes/*.js"]  // <-- ESTA ES LA CORRECTA
 };
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
