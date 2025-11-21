@@ -11,7 +11,7 @@ export const getRegistrosEntrada = async (req, res) => {
 }
 
 export const postRegistroEntrada = async (req, res) => {
-    console.log("📥 BODY RECIBIDO:", req.body);   // <-- AGREGA ESTO YA
+    console.log("📥 BODY RECIBIDO:", req.body);   
 
     try {
         const registroData = req.body;
@@ -57,7 +57,7 @@ export const deleteRegistroEntrada = async (req, res) => {
 
 export const searchRegistroEntrada = async (req, res) => {
     try {
-        console.log(req.query); // <- para depuración
+        console.log(req.query);
         const searchTerm = req.query?.q;
         if (!searchTerm) return res.status(400).json({ message: "Parametro query 'q' es requerido" });
 

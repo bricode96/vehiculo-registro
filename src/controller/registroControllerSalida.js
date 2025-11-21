@@ -11,7 +11,6 @@ export const getRegistroSalida = async (req, res) => {
 };
 
 export const postRegistroSalida = async (req, res) => {
-    console.log("📥 BODY RECIBIDO:", req.body);
     try {
         const registroData = req.body;
         const newRegistro = await registroServiceSalida.postRegistroSalida(registroData);
@@ -24,7 +23,6 @@ export const postRegistroSalida = async (req, res) => {
 
 export const putRegistroSalida = async (req, res) => {
     try {
-        console.log("➡️ Body recibido en PUT:", req.body);
         const registroId = req.params.id;
         const registroData = req.body;
         const updateRegistro = await registroServiceSalida.putRegistroSalida(registroId, registroData);

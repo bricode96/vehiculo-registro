@@ -1,6 +1,5 @@
 import { query } from "../config/db.js";
 
-// Obtener registros
 export const getRegistroSalida = async () => {
     const { rows } = await query(`
         SELECT S.*, V.modelo 
@@ -11,7 +10,6 @@ export const getRegistroSalida = async () => {
     return rows;
 };
 
-// Crear registro
 export const postRegistroSalida = async (registroDataSalida) => {
     const { id_vehiculo_fk, nombre_motorista, kilometraje_salida } = registroDataSalida;
 
@@ -35,7 +33,6 @@ export const postRegistroSalida = async (registroDataSalida) => {
     return detalleRows[0];
 };
 
-// Actualizar salida
 export const putRegistroSalida = async (registroId, datosActualizar) => {
     const { nombre_motorista, kilometraje_salida, id_vehiculo_fk } = datosActualizar;
 
@@ -49,15 +46,10 @@ export const putRegistroSalida = async (registroId, datosActualizar) => {
     return rows[0];
 };
 
-// ------------------------
-// DELETE COMPLETO (BORRA ENTRADAS + SALIDA)
-// ------------------------
 export const deleteRegistroSalida = async (registroId) => {
     try {
-        // Primero borrar las entradas asociadas
         await query(`DELETE FROM entradas_td WHERE id_salida_fk = $1`, [registroId]);
 
-        // Luego borrar la salida
         const { rowCount } = await query(`DELETE FROM salidas_td WHERE id = $1`, [registroId]);
 
         return rowCount > 0;
@@ -67,7 +59,6 @@ export const deleteRegistroSalida = async (registroId) => {
     }
 };
 
-// Buscar registros
 export const searchRegistroSalida = async (searchTerm) => {
     const searchPattern = `%${searchTerm}%`;
 

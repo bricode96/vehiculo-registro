@@ -29,15 +29,14 @@ export const putVehiculo = async (vehiculoData, vehiculoId) => {
     return rows[0];
 }
 
-
-export const deleteVehiculo = async (vehiculoId) =>{
+export const deleteVehiculo = async (vehiculoId) => {
     const { rowCount } = await query(`DELETE FROM vehiculos_td WHERE id = $1`,
         [vehiculoId]
     )
     return rowCount > 0;
 }
 
-export const searchVehiculo = async (searchTerm) =>{
+export const searchVehiculo = async (searchTerm) => {
     const { rows } = await query(
         `SELECT * FROM vehiculos_td WHERE marca ILIKE $1 OR modelo ILIKE $1 OR placa ILIKE $1`,
         [`%${searchTerm}%`]

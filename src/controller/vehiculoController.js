@@ -55,7 +55,7 @@ export const deleteVehiculo = async (req, res) => {
 
 export const searchVehiculo = async (req, res) => {
     try {
-        console.log(req.query); // <- para depuración
+        console.log(req.query);
         const searchTerm = req.query?.q;
         if (!searchTerm) return res.status(400).json({ message: "Parametro query 'q' es requerido" });
 
